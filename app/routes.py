@@ -1,6 +1,5 @@
+from flask import render_template, request, redirect, url_for, session
 from app import app
-from app.models import User
-from flask import render_template
 
 @app.route('/')
 def home():
