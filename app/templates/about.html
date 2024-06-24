@@ -4,80 +4,85 @@
 
 {% block content %}
 <h1>About Me</h1>
-<p>Hello! I'm Dalton Clinton, an experienced IT Specialist with a comprehensive background in network administration, security, server management, and software development. With a strong foundation in both hardware and software, I have honed my skills across various domains to provide robust and efficient IT solutions.</p>
+<div class="about-content">
+    <img src="{{ url_for('static', filename='images/pfp.png') }}" alt="Dalton Clinton" class="profile-photo">
+    <div class="about-text">
+        <p>Hello! I'm Dalton Clinton, an experienced IT Specialist with a comprehensive background in network administration, security, server management, and software development. With a strong foundation in both hardware and software, I have honed my skills across various domains to provide robust and efficient IT solutions.</p>
+        
+        <h2>Professional Skills</h2>
+        <ul>
+            <li><strong>Network Administration:</strong> Proficient in designing, implementing, and maintaining network infrastructures. Experienced with routers, switches, and firewalls to ensure seamless connectivity and security.</li>
+            <li><strong>Security:</strong> Adept at implementing security protocols and measures to protect systems and data from cyber threats. Skilled in performing security audits, risk assessments, and deploying security solutions.</li>
+            <li><strong>Server Management:</strong> Extensive experience in managing Windows and Linux servers. Capable of configuring, maintaining, and troubleshooting server environments to ensure optimal performance and reliability.</li>
+            <li><strong>Software Development:</strong> Experienced in developing applications using various programming languages and frameworks, including Python, C#, JavaScript, HTML, CSS, and Flask. Able to create both backend services and frontend interfaces to deliver complete software solutions.</li>
+            <li><strong>Operating Systems:</strong> Proficient in administering both Linux and Windows operating systems. Skilled in scripting and automation to enhance system management and efficiency.</li>
+            <li><strong>Cisco Networking:</strong> Experienced with Cisco networking technologies, including configuring and managing Cisco routers and switches, and implementing network security measures.</li>
+            <li><strong>Cloud Computing (AWS):</strong> Knowledgeable in deploying and managing applications on Amazon Web Services (AWS), including EC2, S3, RDS, and Lambda.</li>
+        </ul>
 
-<h2>Professional Skills</h2>
-<ul>
-    <li><strong>Network Administration:</strong> Proficient in designing, implementing, and maintaining network infrastructures. Experienced with routers, switches, and firewalls to ensure seamless connectivity and security.</li>
-    <li><strong>Security:</strong> Adept at implementing security protocols and measures to protect systems and data from cyber threats. Skilled in performing security audits, risk assessments, and deploying security solutions.</li>
-    <li><strong>Server Management:</strong> Extensive experience in managing Windows and Linux servers. Capable of configuring, maintaining, and troubleshooting server environments to ensure optimal performance and reliability.</li>
-    <li><strong>Software Development:</strong> Experienced in developing applications using various programming languages and frameworks, including Python, C#, JavaScript, HTML, CSS, and Flask. Able to create both backend services and frontend interfaces to deliver complete software solutions.</li>
-    <li><strong>Operating Systems:</strong> Proficient in administering both Linux and Windows operating systems. Skilled in scripting and automation to enhance system management and efficiency.</li>
-    <li><strong>Cisco Networking:</strong> Experienced with Cisco networking technologies, including configuring and managing Cisco routers and switches, and implementing network security measures.</li>
-    <li><strong>Cloud Computing (AWS):</strong> Knowledgeable in deploying and managing applications on Amazon Web Services (AWS), including EC2, S3, RDS, and Lambda.</li>
-</ul>
+        <h2>Technical Proficiencies</h2>
+        <ul>
+            <li><strong>Python:</strong> Strong command over Python programming for automation, data analysis, and web development.</li>
+            <li><strong>C#:</strong> Proficient in developing desktop and web applications using C# and the .NET framework.</li>
+            <li><strong>JavaScript:</strong> Skilled in developing interactive web applications using JavaScript.</li>
+            <li><strong>HTML & CSS:</strong> Proficient in creating responsive and accessible web pages using HTML and CSS.</li>
+            <li><strong>Flask:</strong> Experienced in building lightweight web applications and APIs using the Flask framework.</li>
+            <li><strong>Linux:</strong> Extensive experience with various Linux distributions, including system administration, scripting, and security hardening.</li>
+            <li><strong>Windows:</strong> Skilled in managing Windows environments, including Active Directory, Group Policy, and server roles.</li>
+            <li><strong>Cisco:</strong> Knowledgeable in configuring and managing Cisco networking devices and implementing network security.</li>
+            <li><strong>AWS:</strong> Experienced in deploying and managing applications on Amazon Web Services (AWS), including EC2, S3, RDS, and Lambda.</li>
+        </ul>
 
-<h2>Technical Proficiencies</h2>
-<ul>
-    <li><strong>Python:</strong> Strong command over Python programming for automation, data analysis, and web development.</li>
-    <li><strong>C#:</strong> Proficient in developing desktop and web applications using C# and the .NET framework.</li>
-    <li><strong>JavaScript:</strong> Skilled in developing interactive web applications using JavaScript.</li>
-    <li><strong>HTML & CSS:</strong> Proficient in creating responsive and accessible web pages using HTML and CSS.</li>
-    <li><strong>Flask:</strong> Experienced in building lightweight web applications and APIs using the Flask framework.</li>
-    <li><strong>Linux:</strong> Extensive experience with various Linux distributions, including system administration, scripting, and security hardening.</li>
-    <li><strong>Windows:</strong> Skilled in managing Windows environments, including Active Directory, Group Policy, and server roles.</li>
-    <li><strong>Cisco:</strong> Knowledgeable in configuring and managing Cisco networking devices and implementing network security.</li>
-    <li><strong>AWS:</strong> Experienced in deploying and managing applications on Amazon Web Services (AWS), including EC2, S3, RDS, and Lambda.</li>
-</ul>
+        <h2>Professional Experience</h2>
+        <p>With years of hands-on experience in the IT industry, I have successfully managed numerous projects and provided IT support to businesses of all sizes. My expertise spans from setting up and maintaining network infrastructures to developing secure and efficient software solutions. I am passionate about leveraging technology to solve complex problems and enhance organizational productivity.</p>
 
-<h2>Professional Experience</h2>
-<p>With years of hands-on experience in the IT industry, I have successfully managed numerous projects and provided IT support to businesses of all sizes. My expertise spans from setting up and maintaining network infrastructures to developing secure and efficient software solutions. I am passionate about leveraging technology to solve complex problems and enhance organizational productivity.</p>
+        <h2>Education</h2>
+        <h3>Northeastern State University</h3>
+        <p>Tahlequah, OK, United States<br>
+        Bachelor's degree in Cyber Security</p>
+        <p><strong>Relevant Coursework, Licenses and Certifications:</strong></p>
+        <ul>
+            <li>Computer Science I</li>
+            <li>Computer Science II</li>
+            <li>Principles of TCP/IP</li>
+            <li>Intro to Information Security</li>
+            <li>Intro to Cyber Security</li>
+            <li>Cyber Penetration Testing</li>
+            <li>Programming for Cyber Security</li>
+            <li>Cyber Security Policy</li>
+            <li>Cyber Security in Business and Industry</li>
+            <li>Internet Security</li>
+            <li>Business Database Management Systems</li>
+            <li>Digital Forensics I</li>
+            <li>Digital Forensics II</li>
+            <li>Cyber Security Ethics</li>
+            <li>Cyber Security Senior Seminar</li>
+            <li>Network Security</li>
+            <li>Application Development in C++</li>
+            <li>Game Programming</li>
+            <li>Web Programming</li>
+            <li>Web Site Design and Management</li>
+            <li>Data Telecommunications</li>
+        </ul>
 
-<h2>Education</h2>
-<h3>Northeastern State University</h3>
-<p>Tahlequah, OK, United States<br>
-Bachelor's degree in Cyber Security</p>
-<p><strong>Relevant Coursework, Licenses and Certifications:</strong></p>
-<ul>
-    <li>Computer Science I</li>
-    <li>Computer Science II</li>
-    <li>Principles of TCP/IP</li>
-    <li>Intro to Information Security</li>
-    <li>Intro to Cyber Security</li>
-    <li>Cyber Penetration Testing</li>
-    <li>Programming for Cyber Security</li>
-    <li>Cyber Security Policy</li>
-    <li>Cyber Security in Business and Industry</li>
-    <li>Internet Security</li>
-    <li>Business Database Management Systems</li>
-    <li>Digital Forensics I</li>
-    <li>Digital Forensics II</li>
-    <li>Cyber Security Ethics</li>
-    <li>Cyber Security Senior Seminar</li>
-    <li>Network Security</li>
-    <li>Application Development in C++</li>
-    <li>Game Programming</li>
-    <li>Web Programming</li>
-    <li>Web Site Design and Management</li>
-    <li>Data Telecommunications</li>
-</ul>
+        <h3>Indian Capital Technology Center</h3>
+        <p>Tahlequah, OK, United States<br>
+        Technical or occupational certificate</p>
+        <p><strong>Relevant Coursework, Licenses and Certifications:</strong></p>
+        <ul>
+            <li>Information Technology/Cisco Networking Academy</li>
+            <li>Cisco Network Associate</li>
+        </ul>
+        <p><strong>Clubs and Organizations:</strong></p>
+        <ul>
+            <li>Business Professionals of America - Parliamentarian</li>
+            <li>National Youth Cyber Education Program - Cyber Patriot - Platinum Division</li>
+            <li>SkillsUSA - Member</li>
+            <li>National Technical Honor Society - Member</li>
+        </ul>
 
-<h3>Indian Capital Technology Center</h3>
-<p>Tahlequah, OK, United States<br>
-Technical or occupational certificate</p>
-<p><strong>Relevant Coursework, Licenses and Certifications:</strong></p>
-<ul>
-    <li>Information Technology/Cisco Networking Academy</li>
-    <li>Cisco Network Associate</li>
-</ul>
-<p><strong>Clubs and Organizations:</strong></p>
-<ul>
-    <li>Business Professionals of America - Parliamentarian</li>
-    <li>National Youth Cyber Education Program - Cyber Patriot - Platinum Division</li>
-    <li>SkillsUSA - Member</li>
-    <li>National Technical Honor Society - Member</li>
-</ul>
-
-<h2>Personal Interests</h2>
-<p>Beyond my professional endeavors, I enjoy exploring new technologies and staying up-to-date with the latest advancements in the IT field. In my free time, I like to contribute to open-source projects, engage with the tech community, and continuously improve my skills through learning and experimentation.</p>
+        <h2>Personal Interests</h2>
+        <p>Beyond my professional endeavors, I enjoy exploring new technologies and staying up-to-date with the latest advancements in the IT field. In my free time, I like to contribute to open-source projects, engage with the tech community, and continuously improve my skills through learning and experimentation.</p>
+    </div>
+</div>
 {% endblock %}

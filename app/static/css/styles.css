@@ -101,3 +101,41 @@ footer {
 .project a:hover {
     text-decoration: underline;
 }
+
+.featured-project {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1em;
+    border-radius: 8px;
+    margin-top: 1em;
+}
+
+.featured-project h3 {
+    margin-top: 0;
+}
+
+.featured-project a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.featured-project a:hover {
+    text-decoration: underline;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-photo {
+    max-width: 150px;
+    border-radius: 50%;
+    margin-bottom: 2em;
+}
+
+.about-text {
+    max-width: 600px;
+    text-align: left;
+}
