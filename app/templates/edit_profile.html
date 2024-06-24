@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <h1>Edit Profile</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username.label }} {{ form.username(class_='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }} {{ form.email(class_='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.picture.label }} {{ form.picture(class_='form-control-file') }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class_='btn btn-primary') }}
+        </div>
+    </form>
+</div>
+{% endblock %}

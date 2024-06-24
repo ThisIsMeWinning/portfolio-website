@@ -2,48 +2,19 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: url('../site-images/bg.png') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #2c2c2c; /* Set the background to a dark grey color */
     color: #fff;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-nav {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1em;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
+.navbar {
+    margin-bottom: 0;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin: 0;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.content {
-    padding: 2em;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    margin: 6em auto 2em auto;
-    width: 80%;
-    max-width: 800px;
-    flex: 1;
+.content-wrapper {
+    padding-top: 70px; /* Adjust padding for fixed navbar */
 }
 
 footer {
@@ -140,7 +111,7 @@ footer {
 }
 
 .about-text {
-    max-width: 600px;
+    max-width: 1000px;
     text-align: left;
 }
 
@@ -180,6 +151,7 @@ form button:hover {
     border-radius: 8px;
     margin-top: 1em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #fff;  /* Ensure text is white */
 }
 
 .post img,
@@ -189,10 +161,28 @@ form button:hover {
     margin-top: 1em;
 }
 
+.post-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 .post-controls {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 1em;
+}
+
+.post-button {
+    flex: 1;
+    margin: 0.5em 0;
+    white-space: nowrap;
+    padding: 0.2em 0.5em;
+    font-size: 0.8em;
+}
+
+.post-button-form {
+    display: inline-block;
+    width: 48%;
 }
 
 .form-container {
@@ -208,10 +198,41 @@ form button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    color: #fff;
 }
 
 .posts-container {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1em;
+    width: 100%;
+}
+
+.post-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.post-footer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 0.7em;
 }

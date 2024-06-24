@@ -1,9 +1,11 @@
+import os
+import secrets
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, PostForm
+from app.forms import RegistrationForm, LoginForm, PostForm, UpdateProfileForm
 from app.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
-import os
 from werkzeug.utils import secure_filename
 
 def save_file(file, folder):
@@ -11,6 +13,34 @@ def save_file(file, folder):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], folder, filename)
     file.save(filepath)
     return filename
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    
+    # Crop the image to a square
+    width, height = i.size
+    if width > height:
+        left = (width - height) / 2
+        top = 0
+        right = (width + height) / 2
+        bottom = height
+    else:
+        left = 0
+        top = (height - width) / 2
+        right = width
+        bottom = (height + width) / 2
+
+    i = i.crop((left, top, right, bottom))
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
 
 @app.route("/")
 @app.route("/home")
@@ -31,7 +61,7 @@ def contact():
 
 @app.route("/devlog")
 def devlog():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.date_posted.desc()).all()
     return render_template('devlog.html', title='DevLog', posts=posts)
 
 @app.route("/post/new", methods=['GET', 'POST'])
@@ -66,6 +96,7 @@ def update_post(post_id):
             post.image_file = save_file(form.image_file.data, 'images')
         if form.video_file.data:
             post.video_file = save_file(form.video_file.data, 'videos')
+        post.author = current_user  # Ensure the author is set correctly
         db.session.commit()
         flash('Your post has been updated!', 'success')
         return redirect(url_for('devlog'))
@@ -93,6 +124,9 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            user.image_file = picture_file
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -118,3 +152,53 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/profile", methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = UpdateProfileForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('edit_profile.html', title='Account', image_file=image_file, form=form)
+
+# Helper function to check if the current user is an admin
+def is_admin():
+    return current_user.is_authenticated and current_user.username == 'dalton'
+
+# Admin route to view and manage users
+@app.route("/admin/users")
+@login_required
+def admin_users():
+    if not is_admin():
+        abort(403)
+    users = User.query.all()
+    return render_template('admin_users.html', title='Manage Users', users=users)
+
+# Admin route to delete a user
+@app.route("/admin/users/<int:user_id>/delete", methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not is_admin():
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    if user.username == 'dalton':
+        flash('Cannot delete the admin account.', 'danger')
+        return redirect(url_for('admin_users'))
+    # Ensure to handle posts authored by the user before deleting
+    for post in user.posts:
+        db.session.delete(post)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted.', 'success')
+    return redirect(url_for('admin_users'))

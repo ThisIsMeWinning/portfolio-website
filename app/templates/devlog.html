@@ -14,28 +14,43 @@
     {% for post in posts %}
         <div class="post">
             <div class="post-header">
-                <h2>{{ post.title }}</h2>
-                <p>Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+                <h2 class="post-title">{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
             </div>
-            <p>{{ post.content }}</p>
             {% if post.image_file %}
-                <img src="{{ url_for('static', filename='uploads/images/' + post.image_file) }}" alt="Image">
+                <img src="{{ url_for('static', filename='uploads/images/' + post.image_file) }}" alt="Image" class="post-thumbnail">
             {% endif %}
             {% if post.video_file %}
-                <video controls>
+                <video controls class="post-thumbnail">
                     <source src="{{ url_for('static', filename='uploads/videos/' + post.video_file) }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             {% endif %}
+            <div class="post-footer">
+                {% set profile_pic = post.author.image_file or 'default.jpg' %}
+                <img src="{{ url_for('static', filename='profile_pics/' + profile_pic) }}" alt="Profile Picture">
+                <div class="user-info">
+                    <h2>{{ post.author.username }}</h2>
+                    <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+            </div>
             {% if current_user.is_authenticated and post.author == current_user %}
                 <div class="post-controls">
-                    <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-secondary">Edit</a>
-                    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                    <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-secondary post-button">Edit</a>
+                    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" class="d-inline post-button-form" onsubmit="return confirmDelete()">
+                        <button type="submit" class="btn btn-danger post-button">Delete</button>
                     </form>
                 </div>
             {% endif %}
         </div>
+        <div class="post-divider"></div>
     {% endfor %}
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+function confirmDelete() {
+    return confirm('Are you sure you want to delete this post?');
+}
+</script>
 {% endblock %}
