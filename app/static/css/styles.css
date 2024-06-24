@@ -13,6 +13,10 @@ body {
 nav {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 1em;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 nav ul {
@@ -36,7 +40,7 @@ nav ul li a {
     padding: 2em;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    margin: 2em auto;
+    margin: 6em auto 2em auto;
     width: 80%;
     max-width: 800px;
     flex: 1;
