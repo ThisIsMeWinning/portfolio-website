@@ -173,3 +173,45 @@ form button {
 form button:hover {
     background-color: #1c86ee;
 }
+
+.post {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1em;
+    border-radius: 8px;
+    margin-top: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.post img,
+.post video {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 1em;
+}
+
+.post-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.form-container {
+    padding: 2em;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.devlog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.posts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1em;
+}

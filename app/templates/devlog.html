@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}DevLog{% endblock %}
+{% block content %}
+<div class="devlog-header">
+    <h1>DevLog</h1>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('new_post') }}" class="btn btn-primary">Create New Post</a>
+    {% else %}
+        <p><a href="{{ url_for('login') }}">Login</a> to create a new post.</p>
+    {% endif %}
+</div>
+<hr>
+<div class="posts-container">
+    {% for post in posts %}
+        <div class="post">
+            <div class="post-header">
+                <h2>{{ post.title }}</h2>
+                <p>Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+            </div>
+            <p>{{ post.content }}</p>
+            {% if post.image_file %}
+                <img src="{{ url_for('static', filename='uploads/images/' + post.image_file) }}" alt="Image">
+            {% endif %}
+            {% if post.video_file %}
+                <video controls>
+                    <source src="{{ url_for('static', filename='uploads/videos/' + post.video_file) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+            {% if current_user.is_authenticated and post.author == current_user %}
+                <div class="post-controls">
+                    <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-secondary">Edit</a>
+                    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
