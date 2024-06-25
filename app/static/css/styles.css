@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #2c2c2c; /* Set the background to a dark grey color */
+    background-color: #333; /* Dark grey background */
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -145,6 +145,21 @@ form button:hover {
     background-color: #1c86ee;
 }
 
+.devlog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #fff;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+}
+
 .post {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 1em;
@@ -185,30 +200,6 @@ form button:hover {
     width: 48%;
 }
 
-.form-container {
-    padding: 2em;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    margin: auto;
-}
-
-.devlog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    color: #fff;
-}
-
-.posts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    width: 100%;
-}
-
 .post-footer {
     display: flex;
     align-items: center;
@@ -235,4 +226,9 @@ form button:hover {
 .user-info p {
     margin: 0;
     font-size: 0.7em;
+}
+
+.post-divider {
+    border-top: 1px solid #444;
+    margin: 1em 0;
 }

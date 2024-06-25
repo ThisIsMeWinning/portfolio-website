@@ -18,17 +18,17 @@
                 <p>{{ post.content }}</p>
             </div>
             {% if post.image_file %}
-                <img src="{{ url_for('static', filename='uploads/images/' + post.image_file) }}" alt="Image" class="post-thumbnail">
+                <img src="{{ url_for('static', filename=post.image_file) }}" alt="Image" class="post-thumbnail">
             {% endif %}
             {% if post.video_file %}
                 <video controls class="post-thumbnail">
-                    <source src="{{ url_for('static', filename='uploads/videos/' + post.video_file) }}" type="video/mp4">
+                    <source src="{{ url_for('static', filename=post.video_file) }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             {% endif %}
             <div class="post-footer">
-                {% set profile_pic = post.author.image_file or 'default.jpg' %}
-                <img src="{{ url_for('static', filename='profile_pics/' + profile_pic) }}" alt="Profile Picture">
+                {% set profile_pic = post.author.image_file or 'profile_pics/default.jpg' %}
+                <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile Picture" class="profile-thumbnail">
                 <div class="user-info">
                     <h2>{{ post.author.username }}</h2>
                     <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
