@@ -29,9 +29,8 @@ def request_entity_too_large(error):
     flash('File is too large. Maximum size is 16MB.', 'danger')
     return redirect(request.url)
 
-# Custom context processor
 @app.context_processor
 def inject_is_admin():
     def is_admin():
-        return current_user.is_authenticated and current_user.username == 'dalton'
+        return current_user.is_authenticated and current_user.is_admin
     return dict(is_admin=is_admin)

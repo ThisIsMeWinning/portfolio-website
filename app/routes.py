@@ -3,11 +3,10 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, PostForm, UpdateProfileForm
+from app.forms import RegistrationForm, LoginForm, PostForm, UpdateProfileForm, CreateUserForm
 from app.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-from app.admin_routes import is_admin
 
 def save_file(file, folder, user_id):
     user_folder = os.path.join(app.config['UPLOAD_FOLDER'], str(user_id), folder)
@@ -96,7 +95,7 @@ def new_post():
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
-    if post.author != current_user and not current_user.is_admin:
+    if post.author != current_user:
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
@@ -118,44 +117,47 @@ def update_post(post_id):
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
-    if post.author != current_user and not current_user.is_admin:
+    if post.author != current_user and not is_admin():
         abort(403)
     db.session.delete(post)
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('devlog'))
 
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
+@app.route("/create_user", methods=['GET', 'POST'])
+@login_required
+def create_user():
+    if not is_admin():
+        abort(403)
+    form = CreateUserForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data, user.id)
-            user.image_file = picture_file
-            db.session.commit()
-        flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+        flash('The user has been created!', 'success')
+        return redirect(url_for('admin_users'))
+    return render_template('create_user.html', title='Create User', form=form)
 
 @app.route("/profile", methods=['GET', 'POST'])
 @login_required
 def profile():
     form = UpdateProfileForm()
     if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data, current_user.id)
-            current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('profile'))
+        if bcrypt.check_password_hash(current_user.password, form.current_password.data):
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data, current_user.id)
+                current_user.image_file = picture_file
+            current_user.username = form.username.data
+            current_user.email = form.email.data
+            if form.new_password.data:
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+                current_user.password = hashed_password
+            db.session.commit()
+            flash('Your account has been updated!', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('Current password is incorrect.', 'danger')
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -182,3 +184,58 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+# Helper function to check if the current user is an admin
+def is_admin():
+    return current_user.is_authenticated and current_user.is_admin
+
+# Admin route to view and manage users
+@app.route("/admin_users")
+@login_required
+def admin_users():
+    if not is_admin():
+        abort(403)
+    users = User.query.all()
+    return render_template('admin_users.html', title='Manage Users', users=users)
+
+# Admin route to delete a user
+@app.route("/admin_users/<int:user_id>/delete", methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not is_admin():
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    if user.username == 'dalton':
+        flash('Cannot delete the admin account.', 'danger')
+        return redirect(url_for('admin_users'))
+    # Ensure to handle posts authored by the user before deleting
+    for post in user.posts:
+        db.session.delete(post)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted.', 'success')
+    return redirect(url_for('admin_users'))
+
+# Admin route to promote a user to admin
+@app.route("/admin_users/<int:user_id>/promote", methods=['POST'])
+@login_required
+def promote_user(user_id):
+    if not is_admin():
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    user.is_admin = True
+    db.session.commit()
+    flash('User has been promoted to admin.', 'success')
+    return redirect(url_for('admin_users'))
+
+# Admin route to demote a user from admin
+@app.route("/admin_users/<int:user_id>/demote", methods=['POST'])
+@login_required
+def demote_user(user_id):
+    if not is_admin():
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    user.is_admin = False
+    db.session.commit()
+    flash('User has been demoted from admin.', 'success')
+    return redirect(url_for('admin_users'))

@@ -5,6 +5,7 @@ from app import app, db, bcrypt
 from app.models import User, Post
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
+from app.forms import RegistrationForm, LoginForm, PostForm, UpdateProfileForm
 
 # Helper function to check if the current user is an admin
 def is_admin():
@@ -56,10 +57,23 @@ def demote_user(user_id):
     if not is_admin():
         abort(403)
     user = User.query.get_or_404(user_id)
-    if user.username == 'dalton':
-        flash('Cannot demote the main admin account.', 'danger')
-        return redirect(url_for('manage_users'))
     user.is_admin = False
     db.session.commit()
     flash('User has been demoted from admin.', 'success')
     return redirect(url_for('manage_users'))
+
+@app.route("/admin/users/new", methods=['GET', 'POST'])
+@login_required
+def create_user():
+    if not is_admin():
+        abort(403)
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('The account has been created!', 'success')
+        return redirect(url_for('admin_users'))
+    return render_template('create_user.html', title='Create User', form=form)
+

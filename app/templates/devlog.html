@@ -27,14 +27,14 @@
                 </video>
             {% endif %}
             <div class="post-footer">
-                {% set profile_pic = post.author.image_file or 'profile_pics/default.jpg' %}
-                <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile Picture" class="profile-thumbnail">
+                {% set profile_pic = post.author.image_file if post.author.image_file != 'default.jpg' else 'default.jpg' %}
+                <img src="{{ url_for('static', filename=profile_pic) }}" alt="Profile Picture">
                 <div class="user-info">
                     <h2>{{ post.author.username }}</h2>
                     <p>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
                 </div>
             </div>
-            {% if current_user.is_authenticated and post.author == current_user %}
+            {% if current_user.is_authenticated and (post.author == current_user or current_user.is_admin) %}
                 <div class="post-controls">
                     <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-secondary post-button">Edit</a>
                     <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" class="d-inline post-button-form" onsubmit="return confirmDelete()">
